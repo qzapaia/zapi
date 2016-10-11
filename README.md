@@ -20,30 +20,33 @@ var emailHelper = require('./helpers/email');
 
 var api = zapi({
   users:{
-    firstname:true,
-    email:true,
-    lastname:{ default:'' },
-    products:{ rel:'products', multiple:true },
-    
-    _get:function(options){
+    fields:{
+      email:true,
+      firstname:true,
+      lastname:{ default:'' },
+      products:{ rel:'products', multiple:true },
+    },
+
+    get:function(options){
       return new Promise(function(resolve){
         resolve({
           email:'qzapaia@gmail.com',
-          firstname:'marcelo',
+          firstname:'m',
           lastname:'z',
-        })
+        });
       });    
     },
-    _create:function(){
+    
+    create:function(){
       return new Promise(function(resolve){
         resolve({
           message:"this will be returned as extra data, it doesn't change the state on the client"
         })
       });
     },
-    _update:function(){},
-    _delete:function(){},
-    _effects:{
+    update:function(){},
+    delete:function(){},
+    effects:{
       create:function(newUser){
         emailHelper.send({
           to:newUser.email,
