@@ -1,4 +1,4 @@
-# _zapi
+# zapi
 Another way to do APIs
 
 ## status
@@ -46,27 +46,36 @@ var api = zapi({
     },
     update:function(){},
     delete:function(){},
+    
     effects:{
       create:function(newUser){
-        emailHelper.send({
+        // is a promise
+        return emailHelper.send({
           to:newUser.email,
           message:`Welcome ${newUser.firstname}`
-        })
+        });
       }
     }
   },
+  
   products:{
-    owner:{ rel:'users' }
-  }
+    fields:{
+      owner:{ 
+        rel:'users',
+      },
+    },
+  },
 });
 
 // programmatically
 api.pull({
   users:{
-    me:true,
-    populate:{
+    me:{
+      firstname:true,
       products:{
-        owner:true
+        owner:{
+          populate:true
+        },
       },
     },
   },
